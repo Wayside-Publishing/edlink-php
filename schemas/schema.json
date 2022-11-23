@@ -1,0 +1,3831 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/api/v2/graph/agents": {
+            "get": {
+                "operationId": "AgentsController_listPeopleForIntegration",
+                "summary": "List all agents for this integration",
+                "parameters": [
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Agent"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    }
+                },
+                "tags": [
+                    "agents"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/agents/{agent_id}": {
+            "get": {
+                "operationId": "AgentsController_fetchAgent",
+                "summary": "Fetch an individual agent by ID",
+                "parameters": [
+                    {
+                        "name": "agent_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/Agent"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Agent with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "agents"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/classes": {
+            "get": {
+                "operationId": "ClassesController_listClasses",
+                "summary": "List all classes for this integration",
+                "parameters": [
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Class"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    }
+                },
+                "tags": [
+                    "classes"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/classes/{class_id}": {
+            "get": {
+                "operationId": "ClassesController_fetchClass",
+                "summary": "Fetch an individual class by ID",
+                "parameters": [
+                    {
+                        "name": "class_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/Class"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Class with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "classes"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/classes/{class_id}/sections": {
+            "get": {
+                "operationId": "ClassesController_listSectionsForClass",
+                "summary": "List all sections for a specific class",
+                "parameters": [
+                    {
+                        "name": "class_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Section"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Class with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "classes"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/courses": {
+            "get": {
+                "operationId": "CoursesController_listCourses",
+                "summary": "List all courses for this integration",
+                "parameters": [
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Course"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    }
+                },
+                "tags": [
+                    "courses"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/courses/{course_id}": {
+            "get": {
+                "operationId": "CoursesController_fetchAgent",
+                "summary": "Fetch an individual agent by ID",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/Course"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Course with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "courses"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/courses/{course_id}/classes": {
+            "get": {
+                "operationId": "CoursesController_listClassesForCourse",
+                "summary": "Fetch all classes for a specific course",
+                "parameters": [
+                    {
+                        "name": "course_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Class"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Course with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "courses"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/districts": {
+            "get": {
+                "operationId": "DistrictsController_listDistrictsForIntegration",
+                "summary": "List all districts for this integration.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/District"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    }
+                },
+                "tags": [
+                    "districts"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/districts/{district_id}": {
+            "get": {
+                "operationId": "DistrictsController_fetchDistrictForIntegration",
+                "summary": "Fetch an individual district by ID",
+                "parameters": [
+                    {
+                        "name": "district_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/District"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "404": {
+                        "description": "District with the provided ID not found."
+                    }
+                },
+                "tags": [
+                    "districts"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/districts/{district_id}/administrators": {
+            "get": {
+                "operationId": "DistrictsController_listAdministratorsForDistrict",
+                "summary": "List all administrators for a district.",
+                "parameters": [
+                    {
+                        "name": "district_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Person"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    }
+                },
+                "tags": [
+                    "districts"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/events": {
+            "get": {
+                "operationId": "EventsController_listEventsForIntegration",
+                "summary": "List all events for this integration",
+                "parameters": [
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Event"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "`$first` and `$last` must be a positive integer betwen 1 and 10,000"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    }
+                },
+                "tags": [
+                    "events"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/events/{event_id}": {
+            "get": {
+                "operationId": "EventsController_fetchEventForIntegration",
+                "summary": "Fetch a specific event by ID",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/Event"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "404": {
+                        "description": "Event with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "events"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/people": {
+            "get": {
+                "operationId": "PeopleController_listPeopleForIntegration",
+                "summary": "List all people for this integration",
+                "parameters": [
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Person"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    }
+                },
+                "tags": [
+                    "people"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/people/{person_id}": {
+            "get": {
+                "operationId": "PeopleController_fetchPersonForIntegration",
+                "summary": "Fetch an individual person by ID",
+                "parameters": [
+                    {
+                        "name": "person_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/Person"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Person with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "people"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/people/{person_id}/enrollments": {
+            "get": {
+                "operationId": "PeopleController_listEnrollmentsForPerson",
+                "summary": "List all enrollments for an individual person",
+                "parameters": [
+                    {
+                        "name": "person_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Enrollment"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Person with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "people"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/people/{person_id}/agents": {
+            "get": {
+                "operationId": "PeopleController_listAgentsForPerson",
+                "summary": "List all agents for an individual person",
+                "parameters": [
+                    {
+                        "name": "person_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Agent"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Person with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "people"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/people/{person_id}/classes": {
+            "get": {
+                "operationId": "PeopleController_listClassesForPerson",
+                "summary": "List all classes for an individual person",
+                "parameters": [
+                    {
+                        "name": "person_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Class"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Person with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "people"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/people/{person_id}/districts": {
+            "get": {
+                "operationId": "PeopleController_listDistrictsForPerson",
+                "summary": "List all districts for an individual person",
+                "parameters": [
+                    {
+                        "name": "person_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/District"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Person with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "people"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/people/{person_id}/schools": {
+            "get": {
+                "operationId": "PeopleController_listSchoolsForPerson",
+                "summary": "List all schools for an individual person",
+                "parameters": [
+                    {
+                        "name": "person_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/School"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Person with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "people"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools": {
+            "get": {
+                "operationId": "SchoolsController_listSchools",
+                "summary": "List all schools for this integration",
+                "parameters": [
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/School"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}": {
+            "get": {
+                "operationId": "SchoolsController_fetchSchool",
+                "summary": "Fetch an individual school by ID",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/School"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}/courses": {
+            "get": {
+                "operationId": "SchoolsController_listCoursesForSchool",
+                "summary": "List all courses for an individual school",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Course"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "School with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}/classes": {
+            "get": {
+                "operationId": "SchoolsController_listClassesForSchool",
+                "summary": "List all classes for an individual school",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Class"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "School with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}/sessions": {
+            "get": {
+                "operationId": "SchoolsController_listSessionsForSchool",
+                "summary": "List all sessions for an individual school",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Session"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "School with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}/people": {
+            "get": {
+                "operationId": "SchoolsController_listPeopleForSchool",
+                "summary": "List all people for an individual school",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Person"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "School with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}/administrators": {
+            "get": {
+                "operationId": "SchoolsController_listAdministratorsForSchool",
+                "summary": "List all administrators for an individual school",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Person"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "School with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}/teachers": {
+            "get": {
+                "operationId": "SchoolsController_listTeachersForSchool",
+                "summary": "List all teachers for an individual school",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Person"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "School with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/schools/{school_id}/students": {
+            "get": {
+                "operationId": "SchoolsController_listStudentsForSchool",
+                "summary": "List all students for an individual school",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Person"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "School with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "schools"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/sessions": {
+            "get": {
+                "operationId": "SessionsController_listSessions",
+                "summary": "List all sessions for this integration",
+                "parameters": [
+                    {
+                        "name": "$last",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Backwards from the `$before` parameter (or the end of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$before",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$last`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$first",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 10000
+                        },
+                        "description": "Forwards from the `$after` parameter (or the beginning of the dataset if not specified),how many documents to fetch. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$after",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "format": "uuid"
+                        },
+                        "description": "The last document ID, to be used in conjunction with `$first`. For more information, refer to the [Pagination documentation](https://ed.link/docs/guides/v2.0/paginated-requests)"
+                    },
+                    {
+                        "name": "$filter",
+                        "required": false,
+                        "in": "query",
+                        "example": "{\"display_name\":[{\"operator\":\"starts with\",\"value\":\"A\"}]}",
+                        "description": "A stringified set of JSON-encoded filters. For more information, refer to the [Result filtering documentation](https://ed.link/docs/guides/v2.0/filtering-results)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$next": {
+                                            "type": "string",
+                                            "format": "uri",
+                                            "description": "A pre-constructed URL to get the next page of data, should one exist"
+                                        },
+                                        "$data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Session"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The provided value for $filter is invalid"
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    }
+                },
+                "tags": [
+                    "sessions"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        },
+        "/api/v2/graph/sessions/{session_id}": {
+            "get": {
+                "operationId": "SessionsController_fetchSession",
+                "summary": "Fetch an individual session by ID",
+                "parameters": [
+                    {
+                        "name": "session_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "$data"
+                                    ],
+                                    "properties": {
+                                        "$data": {
+                                            "$ref": "#/components/schemas/Session"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "The request must contain an authentication bearer header that corresponds to a valid integration"
+                    },
+                    "403": {
+                        "description": "The integration making the request does not have the correct permissions to perform this action"
+                    },
+                    "404": {
+                        "description": "Session with the provided ID not found"
+                    }
+                },
+                "tags": [
+                    "sessions"
+                ],
+                "security": [
+                    {
+                        "integration": []
+                    }
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Edlink Graph API",
+        "description": "",
+        "version": "2.0.0",
+        "contact": {}
+    },
+    "tags": [],
+    "servers": [
+        {
+            "url": "https://ed.link"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "integration": {
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "type": "http",
+                "name": "integration access token",
+                "description": "The access token from the integration page on the Edlink dashboard"
+            }
+        },
+        "schemas": {
+            "Demographics": {
+                "type": "object",
+                "properties": {
+                    "birthday": {
+                        "format": "date-time",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "male",
+                            "female",
+                            "other"
+                        ],
+                        "nullable": true
+                    },
+                    "residence_status": {
+                        "type": "string",
+                        "enum": [
+                            "01652",
+                            "01653",
+                            "01654",
+                            "01655",
+                            "01656"
+                        ],
+                        "description": "[https://ed.link/docs/api/v2.0/models/external/enums/public-school-residence-status](https://ed.link/docs/api/v2.0/models/external/enums/public-school-residence-status)",
+                        "nullable": true
+                    },
+                    "english_language_learner": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "country_of_birth": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "state_of_birth": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "city_of_birth": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "hispanic_or_latino_ethnicity": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "races": {
+                        "type": "string",
+                        "enum": [
+                            "american-indian-or-alaska-native",
+                            "asian",
+                            "black-or-african-american",
+                            "native-hawaiian-or-other-pacific-islander",
+                            "white"
+                        ],
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "birthday",
+                    "gender",
+                    "residence_status",
+                    "english_language_learner",
+                    "country_of_birth",
+                    "state_of_birth",
+                    "city_of_birth",
+                    "hispanic_or_latino_ethnicity",
+                    "races"
+                ]
+            },
+            "Person": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "middle_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "display_name": {
+                        "type": "string"
+                    },
+                    "picture_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "roles": {
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "student",
+                                "district-administrator",
+                                "administrator",
+                                "teacher",
+                                "ta",
+                                "aide",
+                                "observer",
+                                "parent",
+                                "guardian",
+                                "designer",
+                                "member"
+                            ]
+                        }
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "locale": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "time_zone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "graduation_year": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "grade_levels": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "Birth",
+                                "Prenatal",
+                                "IT",
+                                "PR",
+                                "PK",
+                                "TK",
+                                "KG",
+                                "01",
+                                "02",
+                                "03",
+                                "04",
+                                "05",
+                                "06",
+                                "07",
+                                "08",
+                                "09",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "PS",
+                                "UG",
+                                "Other"
+                            ]
+                        }
+                    },
+                    "demographics": {
+                        "$ref": "#/components/schemas/Demographics"
+                    },
+                    "district_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "school_ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "first_name",
+                    "middle_name",
+                    "last_name",
+                    "display_name",
+                    "picture_url",
+                    "roles",
+                    "email",
+                    "phone",
+                    "locale",
+                    "time_zone",
+                    "graduation_year",
+                    "grade_levels",
+                    "demographics",
+                    "district_id",
+                    "school_ids"
+                ]
+            },
+            "Agent": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "observer_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "target_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "relationship": {
+                        "type": "string",
+                        "enum": [
+                            "parent",
+                            "guardian",
+                            "aide"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "observer_id",
+                    "target_id",
+                    "relationship"
+                ]
+            },
+            "Class": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "picture_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "locale": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "time_zone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "subjects": {
+                        "type": "array",
+                        "description": "[https://ed.link/docs/api/v2.0/models/external/enums/subject](https://ed.link/docs/api/v2.0/models/external/enums/subject)",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "CEDS.01",
+                                "CEDS.02",
+                                "CEDS.03",
+                                "CEDS.04",
+                                "CEDS.05",
+                                "CEDS.07",
+                                "CEDS.08",
+                                "CEDS.09",
+                                "CEDS.10",
+                                "CEDS.11",
+                                "CEDS.12",
+                                "CEDS.13",
+                                "CEDS.14",
+                                "CEDS.15",
+                                "CEDS.16",
+                                "CEDS.17",
+                                "CEDS.18",
+                                "CEDS.19",
+                                "CEDS.20",
+                                "CEDS.21",
+                                "CEDS.22",
+                                "CEDS.23",
+                                "CEDS.24",
+                                "EL.01",
+                                "EL.02"
+                            ]
+                        }
+                    },
+                    "grade_levels": {
+                        "type": "array",
+                        "description": "[https://ed.link/docs/api/v2.0/models/external/enums/grade-level](https://ed.link/docs/api/v2.0/models/external/enums/grade-level)",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "Birth",
+                                "Prenatal",
+                                "IT",
+                                "PR",
+                                "PK",
+                                "TK",
+                                "KG",
+                                "01",
+                                "02",
+                                "03",
+                                "04",
+                                "05",
+                                "06",
+                                "07",
+                                "08",
+                                "09",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "PS",
+                                "UG",
+                                "Other"
+                            ]
+                        }
+                    },
+                    "periods": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "template",
+                            "upcoming",
+                            "inactive",
+                            "active",
+                            "completed",
+                            "archived"
+                        ]
+                    },
+                    "session_ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    "course_id": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uuid"
+                    },
+                    "school_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "name",
+                    "description",
+                    "picture_url",
+                    "locale",
+                    "time_zone",
+                    "subjects",
+                    "grade_levels",
+                    "periods",
+                    "state",
+                    "session_ids",
+                    "course_id",
+                    "school_id"
+                ]
+            },
+            "Course": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "subjects": {
+                        "type": "array",
+                        "description": "[https://ed.link/docs/api/v2.0/models/external/enums/subject](https://ed.link/docs/api/v2.0/models/external/enums/subject)",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "CEDS.01",
+                                "CEDS.02",
+                                "CEDS.03",
+                                "CEDS.04",
+                                "CEDS.05",
+                                "CEDS.07",
+                                "CEDS.08",
+                                "CEDS.09",
+                                "CEDS.10",
+                                "CEDS.11",
+                                "CEDS.12",
+                                "CEDS.13",
+                                "CEDS.14",
+                                "CEDS.15",
+                                "CEDS.16",
+                                "CEDS.17",
+                                "CEDS.18",
+                                "CEDS.19",
+                                "CEDS.20",
+                                "CEDS.21",
+                                "CEDS.22",
+                                "CEDS.23",
+                                "CEDS.24",
+                                "EL.01",
+                                "EL.02"
+                            ]
+                        }
+                    },
+                    "grade_levels": {
+                        "type": "array",
+                        "description": "[https://ed.link/docs/api/v2.0/models/external/enums/grade-level](https://ed.link/docs/api/v2.0/models/external/enums/grade-level)",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "Birth",
+                                "Prenatal",
+                                "IT",
+                                "PR",
+                                "PK",
+                                "TK",
+                                "KG",
+                                "01",
+                                "02",
+                                "03",
+                                "04",
+                                "05",
+                                "06",
+                                "07",
+                                "08",
+                                "09",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "PS",
+                                "UG",
+                                "Other"
+                            ]
+                        }
+                    },
+                    "district_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "school_id": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uuid"
+                    },
+                    "session_id": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "name",
+                    "code",
+                    "subjects",
+                    "grade_levels",
+                    "district_id",
+                    "school_id",
+                    "session_id"
+                ]
+            },
+            "Address": {
+                "type": "object",
+                "properties": {
+                    "street": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "unit": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "postal_code": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "city": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "state": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "country": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "nullable": true
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "street",
+                    "unit",
+                    "postal_code",
+                    "city",
+                    "state",
+                    "country",
+                    "phone",
+                    "latitude",
+                    "longitude"
+                ]
+            },
+            "District": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "picture_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "locale": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location": {
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Address"
+                            }
+                        ]
+                    },
+                    "time_zone": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "name",
+                    "picture_url",
+                    "locale",
+                    "location",
+                    "time_zone"
+                ]
+            },
+            "Enrollment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "active",
+                            "inactive",
+                            "dropped",
+                            "upcoming",
+                            "pending",
+                            "completed"
+                        ]
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "student",
+                            "district-administrator",
+                            "administrator",
+                            "teacher",
+                            "ta",
+                            "aide",
+                            "observer",
+                            "parent",
+                            "guardian",
+                            "designer",
+                            "member"
+                        ]
+                    },
+                    "start_date": {
+                        "format": "date-time",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "end_date": {
+                        "format": "date-time",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "primary": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "person_id": {
+                        "type": "string"
+                    },
+                    "class_id": {
+                        "type": "string"
+                    },
+                    "section_id": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "state",
+                    "role",
+                    "start_date",
+                    "end_date",
+                    "primary",
+                    "person_id",
+                    "class_id",
+                    "section_id"
+                ]
+            },
+            "School": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "picture_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "locale": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location": {
+                        "nullable": true,
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Address"
+                            }
+                        ]
+                    },
+                    "time_zone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "grade_levels": {
+                        "type": "string",
+                        "enum": [
+                            "Birth",
+                            "Prenatal",
+                            "IT",
+                            "PR",
+                            "PK",
+                            "TK",
+                            "KG",
+                            "01",
+                            "02",
+                            "03",
+                            "04",
+                            "05",
+                            "06",
+                            "07",
+                            "08",
+                            "09",
+                            "10",
+                            "11",
+                            "12",
+                            "13",
+                            "PS",
+                            "UG",
+                            "Other"
+                        ]
+                    },
+                    "district_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "name",
+                    "picture_url",
+                    "locale",
+                    "location",
+                    "time_zone",
+                    "grade_levels",
+                    "district_id"
+                ]
+            },
+            "Section": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "picture_url": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "locale": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "time_zone": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "upcoming",
+                            "inactive",
+                            "active",
+                            "completed",
+                            "archived"
+                        ]
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "periods": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    "class_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "name",
+                    "picture_url",
+                    "locale",
+                    "time_zone",
+                    "state",
+                    "description",
+                    "periods",
+                    "class_id"
+                ]
+            },
+            "Session": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "semester",
+                            "term",
+                            "grading_period",
+                            "school_year"
+                        ]
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "upcoming",
+                            "active",
+                            "completed"
+                        ]
+                    },
+                    "start_date": {
+                        "format": "date-time",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "end_date": {
+                        "format": "date-time",
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "school_id": {
+                        "type": "string",
+                        "nullable": true,
+                        "format": "uuid"
+                    },
+                    "district_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "name",
+                    "type",
+                    "state",
+                    "start_date",
+                    "end_date",
+                    "school_id",
+                    "district_id"
+                ]
+            },
+            "Event": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "updated_date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "properties": {
+                        "type": "object"
+                    },
+                    "date": {
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "created",
+                            "updated",
+                            "deleted"
+                        ]
+                    },
+                    "target": {
+                        "type": "string",
+                        "enum": [
+                            "agent",
+                            "class",
+                            "course",
+                            "district",
+                            "enrollment",
+                            "person",
+                            "school",
+                            "section",
+                            "session"
+                        ]
+                    },
+                    "data": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/Agent"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Class"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Course"
+                            },
+                            {
+                                "$ref": "#/components/schemas/District"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Enrollment"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Person"
+                            },
+                            {
+                                "$ref": "#/components/schemas/School"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Section"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Session"
+                            }
+                        ]
+                    },
+                    "target_id": {
+                        "type": "string"
+                    },
+                    "integration_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "materialization_id": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "id",
+                    "created_date",
+                    "updated_date",
+                    "properties",
+                    "date",
+                    "type",
+                    "target",
+                    "data",
+                    "target_id",
+                    "integration_id",
+                    "materialization_id"
+                ]
+            }
+        }
+    }
+}

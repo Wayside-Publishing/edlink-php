@@ -1,0 +1,32 @@
+{
+    "name": "wayside-publishing/edlink-php",
+    "type": "library",
+    "description": "A basic sdk for working w/ EdLink APIs",
+    "keywords": ["EdLink"],
+    "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Alex Tretyakov",
+            "email": "atretyakov@waysidepublishing.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.5.0",
+        "league/oauth2-client": "dev-master"
+    },
+    "autoload": {
+        "psr-4" : {
+            "EdLink\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4" : {
+        }
+    },
+    "extra": {
+        "branch-alias": {
+        }
+    }
+}
