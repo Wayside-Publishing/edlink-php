@@ -14,7 +14,7 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "^7.5.0",
-        "league/oauth2-client": "dev-master"
+        "league/oauth2-client": "^2.6.1"
     },
     "autoload": {
         "psr-4" : {
