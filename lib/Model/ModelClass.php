@@ -372,6 +372,7 @@ class ModelClass implements ModelInterface, ArrayAccess, \JsonSerializable
     public const STATE_ACTIVE = 'active';
     public const STATE_COMPLETED = 'completed';
     public const STATE_ARCHIVED = 'archived';
+    public const STATE_TEMPLATE = 'template';
 
     /**
      * Gets allowable values of the enum
@@ -457,6 +458,7 @@ class ModelClass implements ModelInterface, ArrayAccess, \JsonSerializable
             self::STATE_ACTIVE,
             self::STATE_COMPLETED,
             self::STATE_ARCHIVED,
+            self::STATE_TEMPLATE,
         ];
     }
 

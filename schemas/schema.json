@@ -3694,7 +3694,8 @@
                         "enum": [
                             "upcoming",
                             "active",
-                            "completed"
+                            "completed",
+                            "template"
                         ]
                     },
                     "start_date": {
