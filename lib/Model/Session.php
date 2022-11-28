@@ -295,6 +295,7 @@ class Session implements ModelInterface, ArrayAccess, \JsonSerializable
     public const STATE_UPCOMING = 'upcoming';
     public const STATE_ACTIVE = 'active';
     public const STATE_COMPLETED = 'completed';
+    public const STATE_TEMPLATE = 'template';
 
     /**
      * Gets allowable values of the enum
@@ -322,6 +323,7 @@ class Session implements ModelInterface, ArrayAccess, \JsonSerializable
             self::STATE_UPCOMING,
             self::STATE_ACTIVE,
             self::STATE_COMPLETED,
+            self::STATE_TEMPLATE,
         ];
     }
 
