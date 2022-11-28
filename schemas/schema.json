@@ -2812,15 +2812,18 @@
                         "nullable": true
                     },
                     "races": {
-                        "type": "string",
-                        "enum": [
-                            "american-indian-or-alaska-native",
-                            "asian",
-                            "black-or-african-american",
-                            "native-hawaiian-or-other-pacific-islander",
-                            "white"
-                        ],
-                        "nullable": true
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "american-indian-or-alaska-native",
+                                "asian",
+                                "black-or-african-american",
+                                "native-hawaiian-or-other-pacific-islander",
+                                "white"
+                            ]
+                        }
                     }
                 },
                 "required": [

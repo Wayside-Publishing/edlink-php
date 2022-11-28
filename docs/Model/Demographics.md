@@ -12,6 +12,6 @@ Name | Type | Description | Notes
 **state_of_birth** | **string** |  |
 **city_of_birth** | **string** |  |
 **hispanic_or_latino_ethnicity** | **bool** |  |
-**races** | **string** |  |
+**races** | **string[]** |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

@@ -65,7 +65,7 @@ class Demographics implements ModelInterface, ArrayAccess, \JsonSerializable
         'state_of_birth' => 'string',
         'city_of_birth' => 'string',
         'hispanic_or_latino_ethnicity' => 'bool',
-        'races' => 'string'
+        'races' => 'string[]'
     ];
 
     /**
@@ -434,15 +434,6 @@ class Demographics implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['races'] === null) {
             $invalidProperties[] = "'races' can't be null";
         }
-        $allowedValues = $this->getRacesAllowableValues();
-        if (!is_null($this->container['races']) && !in_array($this->container['races'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'races', must be one of '%s'",
-                $this->container['races'],
-                implode("', '", $allowedValues)
-            );
-        }
-
         return $invalidProperties;
     }
 
@@ -753,7 +744,7 @@ class Demographics implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets races
      *
-     * @return string
+     * @return string[]
      */
     public function getRaces()
     {
@@ -763,7 +754,7 @@ class Demographics implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets races
      *
-     * @param string $races races
+     * @param string[] $races races
      *
      * @return self
      */
@@ -780,11 +771,10 @@ class Demographics implements ModelInterface, ArrayAccess, \JsonSerializable
             }
         }
         $allowedValues = $this->getRacesAllowableValues();
-        if (!is_null($races) && !in_array($races, $allowedValues, true)) {
+        if (!is_null($races) && array_diff($races, $allowedValues)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'races', must be one of '%s'",
-                    $races,
+                    "Invalid value for 'races', must be one of '%s'",
                     implode("', '", $allowedValues)
                 )
             );
