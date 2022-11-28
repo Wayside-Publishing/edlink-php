@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **locale** | **string** |  |
 **time_zone** | **string** |  |
 **subjects** | **string[]** | [https://ed.link/docs/api/v2.0/models/external/enums/subject](https://ed.link/docs/api/v2.0/models/external/enums/subject) |
-**grade_levels** | **string** |  |
+**grade_levels** | **string[]** |  |
 **periods** | **string[]** |  |
 **state** | **string** |  |
 **session_ids** | **string[]** |  |

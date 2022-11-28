@@ -3536,32 +3536,35 @@
                         "nullable": true
                     },
                     "grade_levels": {
-                        "type": "string",
-                        "enum": [
-                            "Birth",
-                            "Prenatal",
-                            "IT",
-                            "PR",
-                            "PK",
-                            "TK",
-                            "KG",
-                            "01",
-                            "02",
-                            "03",
-                            "04",
-                            "05",
-                            "06",
-                            "07",
-                            "08",
-                            "09",
-                            "10",
-                            "11",
-                            "12",
-                            "13",
-                            "PS",
-                            "UG",
-                            "Other"
-                        ]
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "Birth",
+                                "Prenatal",
+                                "IT",
+                                "PR",
+                                "PK",
+                                "TK",
+                                "KG",
+                                "01",
+                                "02",
+                                "03",
+                                "04",
+                                "05",
+                                "06",
+                                "07",
+                                "08",
+                                "09",
+                                "10",
+                                "11",
+                                "12",
+                                "13",
+                                "PS",
+                                "UG",
+                                "Other"
+                            ]
+                        }
                     },
                     "district_id": {
                         "type": "string",

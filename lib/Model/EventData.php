@@ -70,7 +70,7 @@ class EventData implements ModelInterface, ArrayAccess, \JsonSerializable
         'locale' => 'string',
         'time_zone' => 'string',
         'subjects' => 'string[]',
-        'grade_levels' => 'string',
+        'grade_levels' => 'string[]',
         'periods' => 'string[]',
         'state' => 'string',
         'session_ids' => 'string[]',
@@ -842,15 +842,6 @@ class EventData implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['grade_levels'] === null) {
             $invalidProperties[] = "'grade_levels' can't be null";
         }
-        $allowedValues = $this->getGradeLevelsAllowableValues();
-        if (!is_null($this->container['grade_levels']) && !in_array($this->container['grade_levels'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'grade_levels', must be one of '%s'",
-                $this->container['grade_levels'],
-                implode("', '", $allowedValues)
-            );
-        }
-
         if ($this->container['periods'] === null) {
             $invalidProperties[] = "'periods' can't be null";
         }
@@ -1375,7 +1366,7 @@ class EventData implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Gets grade_levels
      *
-     * @return string
+     * @return string[]
      */
     public function getGradeLevels()
     {
@@ -1385,7 +1376,7 @@ class EventData implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets grade_levels
      *
-     * @param string $grade_levels grade_levels
+     * @param string[] $grade_levels grade_levels
      *
      * @return self
      */
@@ -1395,11 +1386,10 @@ class EventData implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable grade_levels cannot be null');
         }
         $allowedValues = $this->getGradeLevelsAllowableValues();
-        if (!in_array($grade_levels, $allowedValues, true)) {
+        if (array_diff($grade_levels, $allowedValues)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Invalid value '%s' for 'grade_levels', must be one of '%s'",
-                    $grade_levels,
+                    "Invalid value for 'grade_levels', must be one of '%s'",
                     implode("', '", $allowedValues)
                 )
             );
