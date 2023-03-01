@@ -75,7 +75,8 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
         'grade_levels' => 'string[]',
         'demographics' => '\EdLink\Model\Demographics',
         'district_id' => 'string',
-        'school_ids' => 'string[]'
+        'school_ids' => 'string[]',
+        'identifiers' => 'object[]'
     ];
 
     /**
@@ -104,7 +105,8 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
         'grade_levels' => null,
         'demographics' => null,
         'district_id' => 'uuid',
-        'school_ids' => 'uuid'
+        'school_ids' => 'uuid',
+        'identifiers' => null,
     ];
 
     /**
@@ -114,24 +116,25 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'created_date' => false,
-		'updated_date' => false,
-		'properties' => false,
-		'first_name' => false,
-		'middle_name' => true,
-		'last_name' => false,
-		'display_name' => false,
-		'picture_url' => true,
-		'roles' => true,
-		'email' => false,
-		'phone' => true,
-		'locale' => true,
-		'time_zone' => true,
-		'graduation_year' => true,
-		'grade_levels' => false,
-		'demographics' => false,
-		'district_id' => false,
-		'school_ids' => false
+        'created_date' => false,
+        'updated_date' => false,
+        'properties' => false,
+        'first_name' => false,
+        'middle_name' => true,
+        'last_name' => false,
+        'display_name' => false,
+        'picture_url' => true,
+        'roles' => true,
+        'email' => false,
+        'phone' => true,
+        'locale' => true,
+        'time_zone' => true,
+        'graduation_year' => true,
+        'grade_levels' => false,
+        'demographics' => false,
+        'district_id' => false,
+        'school_ids' => false,
+        'identifiers' => false,
     ];
 
     /**
@@ -238,7 +241,8 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
         'grade_levels' => 'grade_levels',
         'demographics' => 'demographics',
         'district_id' => 'district_id',
-        'school_ids' => 'school_ids'
+        'school_ids' => 'school_ids',
+        'identifiers' => 'identifiers',
     ];
 
     /**
@@ -265,7 +269,8 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
         'grade_levels' => 'setGradeLevels',
         'demographics' => 'setDemographics',
         'district_id' => 'setDistrictId',
-        'school_ids' => 'setSchoolIds'
+        'school_ids' => 'setSchoolIds',
+        'identifiers' => 'setIdentifiers',
     ];
 
     /**
@@ -292,7 +297,8 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
         'grade_levels' => 'getGradeLevels',
         'demographics' => 'getDemographics',
         'district_id' => 'getDistrictId',
-        'school_ids' => 'getSchoolIds'
+        'school_ids' => 'getSchoolIds',
+        'identifiers' => 'getIdentifiers',
     ];
 
     /**
@@ -461,6 +467,7 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('demographics', $data ?? [], null);
         $this->setIfExists('district_id', $data ?? [], null);
         $this->setIfExists('school_ids', $data ?? [], null);
+        $this->setIfExists('identifiers', $data ?? [], null);
     }
 
     /**
@@ -546,6 +553,9 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['school_ids'] === null) {
             $invalidProperties[] = "'school_ids' can't be null";
+        }
+        if ($this->container['identifiers'] === null) {
+            $invalidProperties[] = "'identifiers' can't be null";
         }
         return $invalidProperties;
     }
@@ -1138,6 +1148,34 @@ class Person implements ModelInterface, ArrayAccess, \JsonSerializable
             throw new \InvalidArgumentException('non-nullable school_ids cannot be null');
         }
         $this->container['school_ids'] = $school_ids;
+
+        return $this;
+    }
+
+
+    /**
+     * Gets identifiers
+     *
+     * @return string[]
+     */
+    public function getIdentifiers()
+    {
+        return $this->container['identifiers'];
+    }
+
+    /**
+     * Sets $identifiers
+     *
+     * @param string[] $identifiers identifiers
+     *
+     * @return self
+     */
+    public function setIdentifiers($identifiers)
+    {
+        if (is_null($identifiers)) {
+            throw new \InvalidArgumentException('non-nullable identifiers cannot be null');
+        }
+        $this->container['identifiers'] = $identifiers;
 
         return $this;
     }
