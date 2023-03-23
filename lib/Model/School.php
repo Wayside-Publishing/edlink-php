@@ -45,17 +45,17 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
     public const DISCRIMINATOR = null;
 
     /**
-      * The original name of the model.
-      *
-      * @var string
-      */
+     * The original name of the model.
+     *
+     * @var string
+     */
     protected static $openAPIModelName = 'School';
 
     /**
-      * Array of property to type mappings. Used for (de)serialization
-      *
-      * @var string[]
-      */
+     * Array of property to type mappings. Used for (de)serialization
+     *
+     * @var string[]
+     */
     protected static $openAPITypes = [
         'id' => 'string',
         'created_date' => '\DateTime',
@@ -67,16 +67,17 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
         'location' => '\EdLink\Model\DistrictLocation',
         'time_zone' => 'string',
         'grade_levels' => 'string[]',
-        'district_id' => 'string'
+        'district_id' => 'string',
+        'identifiers' => 'object[]'
     ];
 
     /**
-      * Array of property to format mappings. Used for (de)serialization
-      *
-      * @var string[]
-      * @phpstan-var array<string, string|null>
-      * @psalm-var array<string, string|null>
-      */
+     * Array of property to format mappings. Used for (de)serialization
+     *
+     * @var string[]
+     * @phpstan-var array<string, string|null>
+     * @psalm-var array<string, string|null>
+     */
     protected static $openAPIFormats = [
         'id' => 'uuid',
         'created_date' => 'date-time',
@@ -88,33 +89,35 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
         'location' => null,
         'time_zone' => null,
         'grade_levels' => null,
-        'district_id' => 'uuid'
+        'district_id' => 'uuid',
+        'identifiers' => null,
     ];
 
     /**
-      * Array of nullable properties. Used for (de)serialization
-      *
-      * @var boolean[]
-      */
+     * Array of nullable properties. Used for (de)serialization
+     *
+     * @var boolean[]
+     */
     protected static array $openAPINullables = [
         'id' => false,
-		'created_date' => false,
-		'updated_date' => false,
-		'properties' => false,
-		'name' => false,
-		'picture_url' => true,
-		'locale' => true,
-		'location' => true,
-		'time_zone' => true,
-		'grade_levels' => false,
-		'district_id' => false
+        'created_date' => false,
+        'updated_date' => false,
+        'properties' => false,
+        'name' => false,
+        'picture_url' => true,
+        'locale' => true,
+        'location' => true,
+        'time_zone' => true,
+        'grade_levels' => false,
+        'district_id' => false,
+        'identifiers' => false,
     ];
 
     /**
-      * If a nullable field gets set to null, insert it here
-      *
-      * @var boolean[]
-      */
+     * If a nullable field gets set to null, insert it here
+     *
+     * @var boolean[]
+     */
     protected array $openAPINullablesSetToNull = [];
 
     /**
@@ -206,7 +209,8 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
         'location' => 'location',
         'time_zone' => 'time_zone',
         'grade_levels' => 'grade_levels',
-        'district_id' => 'district_id'
+        'district_id' => 'district_id',
+        'identifiers' => 'identifiers',
     ];
 
     /**
@@ -225,7 +229,8 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
         'location' => 'setLocation',
         'time_zone' => 'setTimeZone',
         'grade_levels' => 'setGradeLevels',
-        'district_id' => 'setDistrictId'
+        'district_id' => 'setDistrictId',
+        'identifiers' => 'setIdentifiers',
     ];
 
     /**
@@ -244,7 +249,8 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
         'location' => 'getLocation',
         'time_zone' => 'getTimeZone',
         'grade_levels' => 'getGradeLevels',
-        'district_id' => 'getDistrictId'
+        'district_id' => 'getDistrictId',
+        'identifiers' => 'getIdentifiers',
     ];
 
     /**
@@ -372,17 +378,18 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('time_zone', $data ?? [], null);
         $this->setIfExists('grade_levels', $data ?? [], null);
         $this->setIfExists('district_id', $data ?? [], null);
+        $this->setIfExists('identifiers', $data ?? [], null);
     }
 
     /**
-    * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
-    * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
-    * $this->openAPINullablesSetToNull array
-    *
-    * @param string $variableName
-    * @param array  $fields
-    * @param mixed  $defaultValue
-    */
+     * Sets $this->container[$variableName] to the given data or to the given default Value; if $variableName
+     * is nullable and its value is set to null in the $fields array, then mark it as "set to null" in the
+     * $this->openAPINullablesSetToNull array
+     *
+     * @param string $variableName
+     * @param array  $fields
+     * @param mixed  $defaultValue
+     */
     private function setIfExists(string $variableName, array $fields, $defaultValue): void
     {
         if (self::isNullable($variableName) && array_key_exists($variableName, $fields) && is_null($fields[$variableName])) {
@@ -433,6 +440,9 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
         }
         if ($this->container['district_id'] === null) {
             $invalidProperties[] = "'district_id' can't be null";
+        }
+        if ($this->container['identifiers'] === null) {
+            $invalidProperties[] = "'identifiers' can't be null";
         }
         return $invalidProperties;
     }
@@ -782,6 +792,33 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
 
         return $this;
     }
+
+    /**
+     * Gets identifiers
+     *
+     * @return array
+     */
+    public function getIdentifiers()
+    {
+        return $this->container['identifiers'];
+    }
+
+    /**
+     * Sets identifiers
+     *
+     * @param string $identifiers identifiers
+     *
+     * @return self
+     */
+    public function setIdentifiers($identifiers)
+    {
+        if (is_null($identifiers)) {
+            throw new \InvalidArgumentException('non-nullable identifiers cannot be null');
+        }
+        $this->container['identifiers'] = $identifiers;
+
+        return $this;
+    }
     /**
      * Returns true if offset exists. False otherwise.
      *
@@ -846,7 +883,7 @@ class School implements ModelInterface, ArrayAccess, \JsonSerializable
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
-       return ObjectSerializer::sanitizeForSerialization($this);
+        return ObjectSerializer::sanitizeForSerialization($this);
     }
 
     /**
