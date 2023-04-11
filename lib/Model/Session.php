@@ -294,6 +294,7 @@ class Session implements ModelInterface, ArrayAccess, \JsonSerializable
     public const TYPE_SCHOOL_YEAR = 'school_year';
     public const STATE_UPCOMING = 'upcoming';
     public const STATE_ACTIVE = 'active';
+    public const STATE_INACTIVE = 'inactive';
     public const STATE_COMPLETED = 'completed';
     public const STATE_TEMPLATE = 'template';
 
@@ -322,6 +323,7 @@ class Session implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::STATE_UPCOMING,
             self::STATE_ACTIVE,
+            self::STATE_INACTIVE,
             self::STATE_COMPLETED,
             self::STATE_TEMPLATE,
         ];
