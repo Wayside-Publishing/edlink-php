@@ -521,6 +521,7 @@ class EventData implements ModelInterface, ArrayAccess, \JsonSerializable
     public const GRADE_LEVELS_OTHER = 'Other';
     public const STATE_UPCOMING = 'upcoming';
     public const STATE_ACTIVE = 'active';
+    public const STATE_INACTIVE = 'inactive';
     public const STATE_COMPLETED = 'completed';
     public const STATE_TEMPLATE = 'template';
     public const ROLE_STUDENT = 'student';
@@ -644,6 +645,7 @@ class EventData implements ModelInterface, ArrayAccess, \JsonSerializable
         return [
             self::STATE_UPCOMING,
             self::STATE_ACTIVE,
+            self::STATE_INACTIVE,
             self::STATE_COMPLETED,
             self::STATE_TEMPLATE,
         ];
