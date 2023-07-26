@@ -288,31 +288,6 @@ class Course implements ModelInterface, ArrayAccess, \JsonSerializable
         return self::$openAPIModelName;
     }
 
-    public const SUBJECTS_CEDS_01 = 'CEDS.01';
-    public const SUBJECTS_CEDS_02 = 'CEDS.02';
-    public const SUBJECTS_CEDS_03 = 'CEDS.03';
-    public const SUBJECTS_CEDS_04 = 'CEDS.04';
-    public const SUBJECTS_CEDS_05 = 'CEDS.05';
-    public const SUBJECTS_CEDS_07 = 'CEDS.07';
-    public const SUBJECTS_CEDS_08 = 'CEDS.08';
-    public const SUBJECTS_CEDS_09 = 'CEDS.09';
-    public const SUBJECTS_CEDS_10 = 'CEDS.10';
-    public const SUBJECTS_CEDS_11 = 'CEDS.11';
-    public const SUBJECTS_CEDS_12 = 'CEDS.12';
-    public const SUBJECTS_CEDS_13 = 'CEDS.13';
-    public const SUBJECTS_CEDS_14 = 'CEDS.14';
-    public const SUBJECTS_CEDS_15 = 'CEDS.15';
-    public const SUBJECTS_CEDS_16 = 'CEDS.16';
-    public const SUBJECTS_CEDS_17 = 'CEDS.17';
-    public const SUBJECTS_CEDS_18 = 'CEDS.18';
-    public const SUBJECTS_CEDS_19 = 'CEDS.19';
-    public const SUBJECTS_CEDS_20 = 'CEDS.20';
-    public const SUBJECTS_CEDS_21 = 'CEDS.21';
-    public const SUBJECTS_CEDS_22 = 'CEDS.22';
-    public const SUBJECTS_CEDS_23 = 'CEDS.23';
-    public const SUBJECTS_CEDS_24 = 'CEDS.24';
-    public const SUBJECTS_EL_01 = 'EL.01';
-    public const SUBJECTS_EL_02 = 'EL.02';
     public const GRADE_LEVELS_BIRTH = 'Birth';
     public const GRADE_LEVELS_PRENATAL = 'Prenatal';
     public const GRADE_LEVELS_IT = 'IT';
@@ -337,41 +312,6 @@ class Course implements ModelInterface, ArrayAccess, \JsonSerializable
     public const GRADE_LEVELS_UG = 'UG';
     public const GRADE_LEVELS_OTHER = 'Other';
 
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getSubjectsAllowableValues()
-    {
-        return [
-            self::SUBJECTS_CEDS_01,
-            self::SUBJECTS_CEDS_02,
-            self::SUBJECTS_CEDS_03,
-            self::SUBJECTS_CEDS_04,
-            self::SUBJECTS_CEDS_05,
-            self::SUBJECTS_CEDS_07,
-            self::SUBJECTS_CEDS_08,
-            self::SUBJECTS_CEDS_09,
-            self::SUBJECTS_CEDS_10,
-            self::SUBJECTS_CEDS_11,
-            self::SUBJECTS_CEDS_12,
-            self::SUBJECTS_CEDS_13,
-            self::SUBJECTS_CEDS_14,
-            self::SUBJECTS_CEDS_15,
-            self::SUBJECTS_CEDS_16,
-            self::SUBJECTS_CEDS_17,
-            self::SUBJECTS_CEDS_18,
-            self::SUBJECTS_CEDS_19,
-            self::SUBJECTS_CEDS_20,
-            self::SUBJECTS_CEDS_21,
-            self::SUBJECTS_CEDS_22,
-            self::SUBJECTS_CEDS_23,
-            self::SUBJECTS_CEDS_24,
-            self::SUBJECTS_EL_01,
-            self::SUBJECTS_EL_02,
-        ];
-    }
 
     /**
      * Gets allowable values of the enum
@@ -700,15 +640,6 @@ class Course implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         if (is_null($subjects)) {
             throw new \InvalidArgumentException('non-nullable subjects cannot be null');
-        }
-        $allowedValues = $this->getSubjectsAllowableValues();
-        if (array_diff($subjects, $allowedValues)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value for 'subjects', must be one of '%s'",
-                    implode("', '", $allowedValues)
-                )
-            );
         }
         $this->container['subjects'] = $subjects;
 
